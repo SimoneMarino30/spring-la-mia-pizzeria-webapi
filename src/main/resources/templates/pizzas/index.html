@@ -5,27 +5,28 @@
     <title>Index</title>
 </head>
 <body>
-<h1>Book list</h1>
-<hr>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Price</th>
-        <th>Description</th>
-        <th>Name</th>
-        <th>Image</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="pizza : ${pizzaList}">
-        <td th:text="${pizza.id}"></td>
-        <td th:text="${pizza.price}"></td>
-        <td th:text="${pizza.description}"></td>
-        <td th:text="${pizza.name}"></td>
-        <td th:text="${pizza.urlPic}"></td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <h1 class="text-center">Pizzas Menù</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-3" th:each="pizza : ${pizzaList}">
+            <div class="card" style="height: 30rem;">
+                <img th:src="${pizza.urlPic}" class="card-img-top" alt="pizza" style="height: 13rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${pizza.name}"></h5>
+                    <p class="card-text" th:text="${pizza.description}"></p>
+                    <a href="#" class="btn btn-primary">See details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="text-danger" th:if="${pizzaList.isEmpty()}">The 🍕 list is empty 🤷‍♀️</div>
+    <!-- Controllo per vedere se il controllo funziona -->
+    <!-- <div class="text-danger h1" th:if="${pizzaList.size == 4}">The 🍕 list is empty 🤷‍♀️</div> -->
+</div>
+
 </body>
 </html>
