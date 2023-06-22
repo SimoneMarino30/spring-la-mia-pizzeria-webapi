@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <th:block th:replace="fragments :: head"></th:block>
-  <title>Index</title>
+    <th:block th:replace="fragments :: head"></th:block>
+    <title>Index</title>
 </head>
 <body>
-
+<h1>Book list</h1>
+<hr>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Name</th>
+        <th>Image</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pizza : ${pizzaList}">
+        <td th:text="${pizza.id}"></td>
+        <td th:text="${pizza.price}"></td>
+        <td th:text="${pizza.description}"></td>
+        <td th:text="${pizza.name}"></td>
+        <td th:text="${pizza.urlPic}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

@@ -25,6 +25,10 @@ public class Pizza {
         this.price = price;
     }
 
+    // DEFAULT CONSTRUCTOR
+    public Pizza() {
+    }
+
     // GETTERS & SETTERS
 
     public Integer getId() {
@@ -34,6 +38,7 @@ public class Pizza {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
