@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Client error</h1>
+<h2>Error <span th:text="${status}"></span></h2>
+<a th:href="@{/pizzas}" class="btn btn-danger mt-5">Back to List</a>
+</body>
+</html>

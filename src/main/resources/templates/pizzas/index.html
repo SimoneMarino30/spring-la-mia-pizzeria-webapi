@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="fragments :: head"></th:block>
+    <th:block th:replace="/fragments/head :: head"></th:block>
     <title>Index</title>
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center">Pizzas Menù</h1>
+    <h1 class="text-center">Pizzas Menu 🍕</h1>
     <hr>
 
-    <div class="row">
-        <div class="col-md-3" th:each="pizza : ${pizzaList}">
+    <div class="row" th:if="${pizzaList.size() > 0}">
+        <div class="col-md-3 mb-5" th:each="pizza : ${pizzaList}">
             <div class="card" style="height: 30rem;">
-                <img th:src="${pizza.urlPic}" class="card-img-top" alt="pizza" style="height: 13rem;">
+                <img th:src="${pizza.urlPic}" class="card-img-top p-3" alt="pizza" style="height: 13rem;">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${pizza.name}"></h5>
-                    <p class="card-text" th:text="${pizza.description}"></p>
-                    <a href="#" class="btn btn-primary">See details</a>
+                    <p class="card-text" th:text="${pizza.description}" style="height: 5rem;"></p>
+                    <a th:href="@{|/pizzas/${pizza.id}|}" class="btn btn-warning mt-5">See details</a>
                 </div>
             </div>
         </div>
+        <div class="text-danger text-center" th:if="${pizzaList.isEmpty()}">
+            The 🍕 list is empty 🤷‍
+        </div>
     </div>
-
-
-    <div class="text-danger" th:if="${pizzaList.isEmpty()}">The 🍕 list is empty 🤷‍♀️</div>
     <!-- Controllo per vedere se il controllo funziona -->
-    <!-- <div class="text-danger h1" th:if="${pizzaList.size == 4}">The 🍕 list is empty 🤷‍♀️</div> -->
+    <!-- <div class="text-danger text-center" th:if="${!pizzaList.isEmpty()}">The 🍕 list is empty 🤷‍♀️</div> -->
 </div>
-
 </body>
 </html>

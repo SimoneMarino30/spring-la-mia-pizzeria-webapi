@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/fragments/head :: head"></th:block>
+    <title>Show</title>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Pizza Detail 🍕</h1>
+    <hr>
+    <div class="card text-center" style="height: 30rem;">
+        <h1 class="card-title" th:text="${pizza.name}"></h1>
+        <h3 class="card-text" th:text="${pizza.description}"></h3>
+        <img th:src="${pizza.urlPic}" class="card-img-top p-3 img-fluid" alt="pizza">
+        <div class="card-body">
+            <a th:href="@{/pizzas}" class="btn btn-danger mt-5">Back to List</a>
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+    </div>
+</div>
+</body>
+</html>
