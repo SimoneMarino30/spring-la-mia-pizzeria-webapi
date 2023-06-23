@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- FRAGMENTS -->
     <th:block th:replace="/fragments/head :: head"></th:block>
+
+
     <title>Index</title>
 </head>
 <body>
+<nav th:replace="~{/fragments/navbar :: nav(currentPage = 'index')}"></nav>
+
 <div class="container">
     <h1 class="text-center">Pizzas Menu 🍕</h1>
+
+    <form th:action="@{/pizzas}" method="GET">
+        <div class="input-group">
+            <input class="form-control me-2" type="search" placeholder="Search by pizza's name" name="keyword"
+                   th:value="${searchedInput}">
+            <button class="btn btn-outline-success" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+    </form>
+
     <hr>
 
     <div class="row" th:if="${pizzaList.size() > 0}">

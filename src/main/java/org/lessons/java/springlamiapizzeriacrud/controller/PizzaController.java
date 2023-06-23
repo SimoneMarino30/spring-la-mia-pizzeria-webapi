@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -21,16 +22,36 @@ public class PizzaController {
     // PizzaController dipende da pizzaRepository
     private PizzaRepository pizzaRepository;
 
-    @GetMapping
+    // Controller che ritorna tutti le pizze (SELECT *)
+    /*@GetMapping
     public String index(Model model) {
         // Recupera la lista di pizze dal DB
         List<Pizza> pizzas = pizzaRepository.findAll();
         //Passo la lista delle pizze alla view attraverso il model
         model.addAttribute("pizzaList", pizzas);
         return "/pizzas/index"; // ritorno la vista index
-    }
+    }*/
 
-    // Pagina di dettaglio
+    // Metodo che può ricevere opzionalmente un parametro da query string:
+    // se cè il param, filtriamo la lista per il param,
+    // se non cè restituiamo la lista di tutti le pizze
+    @GetMapping
+    public String index(@RequestParam(name = "keyword", required = false) String searchString,
+                        Model model) {
+        List<Pizza> pizzas;
+        if (searchString == null || searchString.isBlank()) {
+            //recupero la lista di pizzas dal DB
+            pizzas = pizzaRepository.findAll();
+        } else {
+            // se ho il param searchString faccio la query con filtro
+            pizzas = pizzaRepository.findByNameContainingIgnoreCase(searchString);
+        }
+        //Passo la lista dei libri alla view attraverso il model
+        model.addAttribute("pizzaList", pizzas);
+        //searchedInput è la mia keyword che rimane nella barra di ricerca
+        model.addAttribute("searchedInput", searchString);
+        return "/pizzas/index"; // ritorno la vista index
+    }
 
     // 1° METODO: Il metodo getReferenceById potrebbe non ritornare nulla e va gestito con un try/catch
 

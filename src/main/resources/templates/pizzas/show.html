@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- FRAGMENTS -->
     <th:block th:replace="/fragments/head :: head"></th:block>
+
     <title>Show</title>
 </head>
 <body>
+<nav th:insert="~{/fragments/navbar :: nav(currentPage = 'show')}"></nav>
 <div class="container">
     <h1 class="text-center">Pizza Detail 🍕</h1>
     <hr>
@@ -14,7 +17,6 @@
         <img th:src="${pizza.urlPic}" class="card-img-top p-3 img-fluid" alt="pizza">
         <div class="card-body">
             <a th:href="@{/pizzas}" class="btn btn-danger mt-5">Back to List</a>
-            <i class="fa-solid fa-magnifying-glass"></i>
         </div>
     </div>
 </div>
