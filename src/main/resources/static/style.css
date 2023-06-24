@@ -1,3 +1,36 @@
 .active {
 border-bottom: 3px solid orange;
 }
+body{
+min-height: 100vh;
+background-image:
+linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 20px,
+    rgba(207, 0, 15, 0.35) 20px,
+    rgba(207, 0, 15, 0.35) 40px
+    ),
+linear-gradient(
+    to right,
+    transparent 0,
+    transparent 20px,
+    rgba(207, 0, 15, 0.35) 20px,
+    rgba(207, 0, 15, 0.35) 40px
+    );
+background-size: 40px 40px;
+}
+
+.logo {
+width: 50px;
+}
+
+.plate {
+border-radius: 50%;
+border: 1px solid gold;
+}
+
+.index-prev-img {
+width: 5rem;
+}
+
