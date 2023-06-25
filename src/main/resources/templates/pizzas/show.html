@@ -8,17 +8,38 @@
 </head>
 <body>
 <nav th:insert="~{/fragments/navbar :: nav(currentPage = 'show')}"></nav>
-<div class="container">
-    <h1 class="text-center">Pizza Detail 🍕</h1>
-    <hr>
+<div class="container mt-5"> <!--  style="border:3px solid black" -->
+    <div class="d-flex justify-content-center">
+        <div>
+            <div class="card text-bg-dark img-fluid w-75 text-center">
+                <img th:src="@{/pizza-logo.png}" class="card-img mt-5" alt="...">
+                <div class="card-img-overlay">
+                    <h3 class="card-title" th:text="${pizza.name}"></h3>
+                    <h4 class="card-text mt-3" th:text="${pizza.description}"></h4>
+                    <p class="card-text" th:text="${pizza.price}"><small></small></p>
+                    <div class="text-center">
+                        <a th:href="@{/pizzas}" class="btn btn-outline-danger mt-1">Back to List</a>
+                    </div>
+                </div>
 
-    <h1 th:text="${pizza.name}"></h1>
-    <h3 th:text="${pizza.description}"></h3>
-    <img th:src="${pizza.urlPic}" class="plate" alt="pizza">
-    <div>
-        <a th:href="@{/pizzas}" class="btn btn-danger mt-5">Back to List</a>
+            </div>
+            <!--  <div class="card mt-5 w-75 text-bg-dark border-warning">
+                 <h3 class="card-header text-center text-bg-warning" th:text="${pizza.name}"></h3>
+                 <div class="card-body mt-2">
+                     <p>Ingredients:</p>
+                     <p class="card-text" th:text="${pizza.description}"></p>
+                     <div class="d-flex justify-content-between">
+                         <span class="card-text" th:text="${pizza.id}"></span>
+                         <span class="card-text" th:text="${pizza.price}"></span>
+                     </div>
+                     <div class="text-center">
+                         <a th:href="@{/pizzas}" class="btn btn-outline-warning mt-5">Back to List</a>
+                     </div>
+                 </div>
+             </div>-->
+        </div>
+        <img th:src="${pizza.urlPic}" class="plate" alt="pizza">
     </div>
-
 </div>
 </body>
 </html>

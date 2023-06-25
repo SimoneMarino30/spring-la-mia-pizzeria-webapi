@@ -10,12 +10,10 @@
 <body>
 <nav th:replace="~{/fragments/navbar :: nav(currentPage = 'index')}"></nav>
 
-<div class="container">
-    <h1 class="text-center">Pizzas Menu 🍕</h1>
-
+<div class="container mt-5">
     <form th:action="@{/pizzas}" method="GET">
-        <div class="input-group">
-            <input class="form-control me-2" type="search" placeholder="Search by pizza's name" name="keyword"
+        <div class="input-group my-5">
+            <input class="form-control" type="search" placeholder="Search by pizza's name" name="keyword"
                    th:value="${searchedInput}">
             <button class="btn btn-success" type="submit">
                 <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
@@ -44,7 +42,7 @@
             <td th:text="${pizza.description}"></td>
             <td th:text="${pizza.price}"></td>
             <td>
-                <a th:href="@{|/pizzas/${pizza.id}|}" class="btn btn-warning mt-5">
+                <a th:href="@{|/pizzas/${pizza.id}|}" class="btn btn-warning">
                     <i class="fa-solid fa-pizza-slice"></i>
                 </a>
             </td>

@@ -43,10 +43,11 @@ public class PizzaController {
             //recupero la lista di pizzas dal DB
             pizzas = pizzaRepository.findAll();
         } else {
-            // se ho il param searchString faccio la query con filtro
+            // se ho inserito il param searchString faccio la query con filtro
             pizzas = pizzaRepository.findByNameContainingIgnoreCase(searchString);
         }
-        //Passo la lista dei libri alla view attraverso il model
+
+        //Passo la lista delle pizze alla view attraverso il model
         model.addAttribute("pizzaList", pizzas);
         //searchedInput è la mia keyword che rimane nella barra di ricerca
         model.addAttribute("searchedInput", searchString);
@@ -69,19 +70,20 @@ public class PizzaController {
     }*/
 
     // 2° METODO: Il metodo findById prevede che io non possa trovare l' ID, di conseguenza mi restituisce un Optional
+    // L'oggetto Optional è una contenitore che può contenere un valore !nullo oppure sarà un oggetto Optional vuoto.
+    // La principale funzionalità degli oggetti Optional è quella di evitare errori di "NullPointerException"
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Integer pizzaId, Model model) {
-        // cerca su database i dettagli della pizza con quell'id
+        // cerco su DB i dettagli della pizza con quell'id
         Optional<Pizza> result = pizzaRepository.findById(pizzaId);
         if (result.isPresent()) {
-            // passa la pizza alla view
+            // passo la pizza alla view
             model.addAttribute("pizza", result.get());
-            // ritorna il nome del template della view
+            // ritorno il nome della view
             return "/pizzas/show";
         } else {
             // ritorno un HTTP Status 404 Not Found
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Book with id " + pizzaId + " not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 }
