@@ -3,14 +3,12 @@
 <head>
     <!-- FRAGMENTS -->
     <th:block th:replace="~{/fragments/head :: head}"></th:block>
-
-
     <title>Index</title>
 </head>
 <body>
 <nav th:replace="~{/fragments/navbar :: nav(currentPage = 'index')}"></nav>
 
-<div class="container mt-5">
+<div class="container mt-5" th:if="${pizzaList.size() > 0}">
     <form th:action="@{/pizzas}" method="GET">
         <div class="input-group my-5">
             <input class="form-control" type="search" placeholder="Search by pizza's name" name="keyword"
@@ -21,26 +19,29 @@
             </button>
         </div>
     </form>
-    <table class="table table-dark table-striped">
+    <a class="btn btn-primary" th:href="@{/pizzas/create}">Add a new Pizza</a>
+    <table class="table table-primary table-striped">
         <thead>
-        <tr class="table-dark">
+        <tr class="table-light">
             <th>ID</th>
             <th>Preview</th>
             <th>Name</th>
             <th>Ingredients</th>
             <th>Price</th>
+            <th>Created</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="pizza : ${pizzaList}" class="table-dark">
+        <tr th:each="pizza : ${pizzaList}" class="table-primary">
             <td th:text="${pizza.id}"></td>
             <td>
                 <img th:src="${pizza.urlPic}" class="plate index-prev-img" alt="pizza">
             </td>
             <td th:text="${pizza.name}"></td>
             <td th:text="${pizza.description}"></td>
-            <td th:text="${pizza.price}"></td>
+            <td th:text="${pizza.price} + ' €'"></td>
+            <td th:text="${pizza.getFormattedCreatedAt()}"></td>
             <td>
                 <a th:href="@{|/pizzas/${pizza.id}|}" class="btn btn-warning">
                     <i class="fa-solid fa-pizza-slice"></i>
@@ -49,6 +50,9 @@
         </tr>
         </tbody>
     </table>
+    <div class="text-danger text-center" th:if="${pizzaList.size() < 0}">
+        The 🍕 list is empty 🤷‍
+    </div>
     <!-- <div class="row" th:if="${pizzaList.size() > 0}">
         <div class="col-md-3 mb-5" th:each="pizza : ${pizzaList}">
             <div class="card" style="height: 30rem; background-color: #b8bbb6;">

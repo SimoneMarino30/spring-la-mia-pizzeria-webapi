@@ -1,17 +1,18 @@
 package org.lessons.java.springlamiapizzeriacrud.controller;
 
+
+import jakarta.validation.Valid;
 import org.lessons.java.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.java.springlamiapizzeriacrud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,5 +86,32 @@ public class PizzaController {
             // ritorno un HTTP Status 404 Not Found
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+    }
+
+    // controller che restituisce la pagina col form di crezione del nuovo book (gestisce la GET)
+    @GetMapping("/create")
+    public String create(Model model) {
+        model.addAttribute("pizza", new Pizza()); // obj new Pizza è vuoto in questo momento
+        return "/pizzas/create"; // ritorno la vista create
+    }
+
+    // controller che gestisce la POST del form coi dati del book (gestisce le POST)
+    @PostMapping("/create")
+    public String store(@Valid @ModelAttribute("pizza") Pizza pizzaForm, BindingResult bindingResult) { //pizzaForm e' un altro modo di passare il model
+        // i dati del book sono dentro l'oggetto formBook
+
+        // ModelAttribute aggiunge i dati del book contenuti nel model.attribute()
+        // verifico se in validazione ci sono stati errori
+        if (bindingResult.hasErrors()) {
+            //ci sono stati errori
+            return "/pizzas/create"; // ritorno template form ma con obj Pizza precaricato
+        } // se non ci sono stati errori
+        // setto il timestamp di creazione
+        pizzaForm.setCreatedAt(LocalDateTime.now());
+        // persisto l' obj pizza su DB
+        // il metodo save fa una CREATE Sql se l'oggetto con quella Primary Key non esiste, altrimenti fa l' UPDATE
+        pizzaRepository.save(pizzaForm);
+        // se tutto va bene rimando alla lista di books
+        return "redirect:/pizzas";
     }
 }

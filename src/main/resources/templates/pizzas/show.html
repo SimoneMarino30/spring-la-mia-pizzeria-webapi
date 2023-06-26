@@ -15,10 +15,10 @@
                 <img th:src="@{/pizza-logo.png}" class="card-img mt-5" alt="...">
                 <div class="card-img-overlay">
                     <h3 class="card-title" th:text="${pizza.name}"></h3>
-                    <h4 class="card-text mt-3" th:text="${pizza.description}"></h4>
-                    <p class="card-text" th:text="${pizza.price}"><small></small></p>
+                    <h2 class="card-text mt-3" th:text="${pizza.description}"></h2>
+                    <p class="card-text my-5" th:text="${pizza.price}"><small></small></p>
                     <div class="text-center">
-                        <a th:href="@{/pizzas}" class="btn btn-outline-danger mt-1">Back to List</a>
+                        <a th:href="@{/pizzas}" class="btn btn-danger mt-1">Back to List</a>
                     </div>
                 </div>
 
