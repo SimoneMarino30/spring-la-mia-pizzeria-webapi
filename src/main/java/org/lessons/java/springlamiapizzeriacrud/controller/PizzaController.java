@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -55,6 +56,8 @@ public class PizzaController {
         return "/pizzas/index"; // ritorno la vista index
     }
 
+//**************************************************************************************************************************\\
+
     // 1° METODO: Il metodo getReferenceById potrebbe non ritornare nulla e va gestito con un try/catch
 
     /*@GetMapping("/{id}")
@@ -69,6 +72,7 @@ public class PizzaController {
         }
         return "pizzas/show"; // ritorno la vista show
     }*/
+//**************************************************************************************************************************\\
 
     // 2° METODO: Il metodo findById prevede che io non possa trovare l' ID, di conseguenza mi restituisce un Optional
     // L'oggetto Optional è una contenitore che può contenere un valore !nullo oppure sarà un oggetto Optional vuoto.
@@ -99,7 +103,12 @@ public class PizzaController {
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") Pizza pizzaForm, BindingResult bindingResult) { //pizzaForm e' un altro modo di passare il model
         // i dati del book sono dentro l'oggetto formBook
-
+        // verifico se l'isbn è univoco
+        if (!isUniqueName(pizzaForm)) {
+            // aggiungo a mano un errore nella mappa BindingResult
+            bindingResult.addError(new FieldError("book", "isbn", pizzaForm.getName(), false, null, null,
+                    "You cannot add an alredy existing name, choose another name please!"));
+        }
         // ModelAttribute aggiunge i dati del book contenuti nel model.attribute()
         // verifico se in validazione ci sono stati errori
         if (bindingResult.hasErrors()) {
@@ -113,5 +122,11 @@ public class PizzaController {
         pizzaRepository.save(pizzaForm);
         // se tutto va bene rimando alla lista di books
         return "redirect:/pizzas";
+    }
+
+    // metodo per verificare se su database c'è già una pizza con lo stesso name (unique)
+    private boolean isUniqueName(Pizza pizzaForm) {
+        Optional<Pizza> result = pizzaRepository.findByName(pizzaForm.getName());
+        return result.isEmpty();
     }
 }
