@@ -12,11 +12,11 @@
     <form th:action="@{/pizzas/create}" th:object="${pizza}" method="post" id="pizza-form" class="row card"
     >
         <!-- div con l'elenco di tutti gli errori -->
-        <!-- <div th:if="${#fields.hasErrors()}">
+        <div th:if="${#fields.hasErrors()}" class="text-danger">
             <ul>
                 <li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
             </ul>
-        </div> -->
+        </div>
         <!-- FORM -->
         <!-- NAME -->
         <div class="col-6">
@@ -29,9 +29,6 @@
                     <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
                 </ul>
             </div>
-            <div class="valid-feedback">
-                Great!
-            </div>
         </div>
         <!-- URL IMG -->
         <div class="col-6">
@@ -40,11 +37,10 @@
                 <span class="input-group-text" id="basic-addon3">https:</span>
                 <input type="text" class="form-control" id="basic-url" th:field="*{urlPic}"
                        th:errorClass="is-invalid">
-                <ul>
-                    <li th:each="err : ${#fields.errors('urlPic')}" th:text="${err}"></li>
-                </ul>
-                <div class="valid-feedback">
-                    Great!
+                <div th:if="${#fields.hasErrors('urlPic')}" class="invalid-feedback">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('urlPic')}" th:text="${err}"></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -59,9 +55,6 @@
                     <ul>
                         <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
                     </ul>
-                    <div class="valid-feedback">
-                        Great!
-                    </div>
                 </div>
             </div>
         </div>

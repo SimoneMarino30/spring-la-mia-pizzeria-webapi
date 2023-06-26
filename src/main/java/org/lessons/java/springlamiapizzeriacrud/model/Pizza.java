@@ -1,9 +1,9 @@
 package org.lessons.java.springlamiapizzeriacrud.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,11 +19,12 @@ public class Pizza {
     @NotBlank(message = "Name must not be null or blank")
     @Column(nullable = false, unique = true)
     private String name;
+
     private String description;
     @NotBlank(message = "URL must not be null or blank")
     private String urlPic;
-    @Min(0)
-    @Max(999)
+    @DecimalMin(value = "0.0", inclusive = false)
+    @NotNull(message = "price must not be null or blank")
     @Column(nullable = false)
     private BigDecimal price;
     private LocalDateTime createdAt;
