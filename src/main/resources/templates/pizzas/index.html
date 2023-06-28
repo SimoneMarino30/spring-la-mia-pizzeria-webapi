@@ -9,6 +9,12 @@
 <nav th:replace="~{/fragments/navbar :: nav(currentPage = 'index')}"></nav>
 
 <div class="container mt-5" th:if="${pizzaList.size() > 0}">
+    <!-- eventuale messaggio di delete -->
+    <div th:if="${message != null}" class="alert alert-dismissible fade show"
+         th:classAppend="${#strings.equalsIgnoreCase(message.type, 'SUCCESS')} ? 'alert-success' : 'alert-danger'">
+        <div th:text="${message.message}"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="row my-5">
         <div class="col-10">
             <form th:action="@{/pizzas}" method="GET">
@@ -49,11 +55,22 @@
             <td th:text="${pizza.price} + ' €'"></td>
             <td th:text="${pizza.getFormattedCreatedAt()}"></td>
             <td>
-                <a th:href="@{|/pizzas/${pizza.id}|}" class="btn btn-warning">
-                    <i class="fa-solid fa-pizza-slice"></i>
-                    <a th:href="@{|/pizzas/edit/${pizza.id}|}" class="btn btn-primary"><i
-                            class="fa-solid fa-pen-to-square"></i></a>
+                <a th:href="@{|/pizzas/${pizza.id}|}">
+                    <button class="btn btn-warning" type="submit">
+                        <i class="fa-solid fa-pizza-slice"></i>
+                    </button>
                 </a>
+                <a th:href="@{|/pizzas/edit/${pizza.id}|}">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </a>
+                <!-- faccio il form essendo una richiesta POST e non GET come nelle 2 actions sopra -->
+                <form th:action="@{|/pizzas/delete/${pizza.id}|}" method="post">
+                    <button class="btn btn-danger mt-2" type="submit">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
             </td>
         </tr>
         </tbody>

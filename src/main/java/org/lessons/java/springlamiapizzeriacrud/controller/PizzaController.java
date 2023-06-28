@@ -180,8 +180,23 @@ public class PizzaController {
         // salvo i dati
         pizzaRepository.save(pizzaForm);
         redirectAttributes.addFlashAttribute("message",
-                new AlertMessage(AlertMessageType.SUCCESS, "Pizza updated!"));
+                new AlertMessage(AlertMessageType.SUCCESS, "Pizza " + pizzaForm.getName() + " updated successfully!"));
         return "redirect:/pizzas";
+    }
+
+    /*
+     * MEDODI PER DELETE
+     * */
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) { // reindirizzo una mappa di attributi( usato per il toast dell' avvenuta canncellazione)
+        // verifichiamo che esiste book con quell' id( altrimenti deleteById lo ignora e non cancella)
+        Pizza pizzaToDelete = getPizzaById(id);
+        // lo cancelliamo
+        pizzaRepository.delete(pizzaToDelete);
+        // aggiungo un messaggio di successo con flashAttributes
+        redirectAttributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "Pizza " + pizzaToDelete.getName() + " deleted"));
+        return "redirect:/pizzas";
+
     }
 
     // UTILITY METHODS
@@ -197,7 +212,7 @@ public class PizzaController {
         Optional<Pizza> result = pizzaRepository.findById(id);
         // se non esiste, ritorno un http 404
         if (result.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with id " + id + " not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pizza with id " + id + " not found");
             // eccezione 'custom' per richieste http
         }
         return result.get();

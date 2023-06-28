@@ -34,6 +34,10 @@ border: 1px solid gold;
 width: 5rem;
 }
 
+a{
+text-decoration: none;
+}
+
 //debug
 //pattern per nav {
 background-image: url(/public/pizza-pattern-nav.jpg);
