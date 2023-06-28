@@ -1,6 +1,11 @@
-.active {
-border-bottom: 3px solid orange;
+a{
+text-decoration: none;
 }
+
+.size {
+min-width: 2rem;
+}
+
 body{
 min-height: 100vh;
 background-image:
@@ -21,6 +26,19 @@ linear-gradient(
 background-size: 40px 40px;
 }
 
+.active-box {
+   background:
+     linear-gradient(
+       to left,
+       red 0,
+       red 33.3%,
+       white 33.3%,
+       white 66.6%,
+       green 66.6%,
+       green )bottom no-repeat;
+   background-size:100% 3px ;
+}
+
 .logo {
 width: 50px;
 }
@@ -32,10 +50,6 @@ border: 1px solid gold;
 
 .index-prev-img {
 width: 5rem;
-}
-
-a{
-text-decoration: none;
 }
 
 //debug

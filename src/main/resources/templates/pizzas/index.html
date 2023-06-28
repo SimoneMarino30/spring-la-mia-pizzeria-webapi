@@ -32,45 +32,45 @@
         </div>
     </div>
 
-    <table class="table table-primary table-striped">
+    <table class="table table-striped">
         <thead>
         <tr class="table-light">
-            <th>ID</th>
-            <th>Preview</th>
-            <th>Name</th>
-            <th>Ingredients</th>
-            <th>Price</th>
-            <th>Created</th>
-            <th>Actions</th>
+            <th class="text-bg-success">Preview</th>
+            <th class="text-bg-success">Name</th>
+            <th class="text-bg-success">Price</th>
+            <th class="text-center">Ingredients</th>
+            <th class="text-bg-danger">Created</th>
+            <th class="text-bg-danger">Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="pizza : ${pizzaList}" class="table-primary">
-            <td th:text="${pizza.id}"></td>
+        <tr th:each="pizza : ${pizzaList}" class="table-dark">
             <td>
                 <img th:src="${pizza.urlPic}" class="plate index-prev-img" alt="pizza">
             </td>
             <td th:text="${pizza.name}"></td>
-            <td th:text="${pizza.description}"></td>
             <td th:text="${pizza.price} + ' €'"></td>
+            <td th:text="${pizza.description}"></td>
             <td th:text="${pizza.getFormattedCreatedAt()}"></td>
             <td>
-                <a th:href="@{|/pizzas/${pizza.id}|}">
-                    <button class="btn btn-warning" type="submit">
-                        <i class="fa-solid fa-pizza-slice"></i>
-                    </button>
-                </a>
-                <a th:href="@{|/pizzas/edit/${pizza.id}|}">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                </a>
-                <!-- faccio il form essendo una richiesta POST e non GET come nelle 2 actions sopra -->
-                <form th:action="@{|/pizzas/delete/${pizza.id}|}" method="post">
-                    <button class="btn btn-danger mt-2" type="submit">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </form>
+                <div class="d-flex gap-1">
+                    <a th:href="@{|/pizzas/${pizza.id}|}">
+                        <button class="btn btn-success" type="submit">
+                            <i class="fa-solid fa-pizza-slice"></i>
+                        </button>
+                    </a>
+                    <a th:href="@{|/pizzas/edit/${pizza.id}|}">
+                        <button class="btn btn-light" type="submit">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </a>
+                    <!-- faccio il form essendo una richiesta POST e non GET come nelle 2 actions sopra -->
+                    <form th:action="@{|/pizzas/delete/${pizza.id}|}" method="post">
+                        <button class="btn btn-danger" type="submit">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
             </td>
         </tr>
         </tbody>
