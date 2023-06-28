@@ -92,22 +92,22 @@ public class PizzaController {
         }
     }
 
-    // controller che restituisce la pagina col form di crezione del nuovo book (gestisce la GET)
+    // controller che restituisce la pagina col form di crezione della nuova Pizza (gestisce la GET)
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza()); // obj new Pizza è vuoto in questo momento
         return "/pizzas/create"; // ritorno la vista create
     }
 
-    // controller che gestisce la POST del form coi dati del book (gestisce le POST)
+    // controller che gestisce la POST del form coi dati della pizza (gestisce le POST)
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") Pizza pizzaForm, BindingResult bindingResult) { //pizzaForm e' un altro modo di passare il model
-        // i dati del book sono dentro l'oggetto formBook
-        // verifico se l'isbn è univoco
+        // i dati della pizza sono dentro l'obj pizzaForm
+        // verifico se il name è univoco
         if (!isUniqueName(pizzaForm)) {
-            // aggiungo a mano un errore nella mappa BindingResult
+            // aggiungo a mano un errore nella mappa BindingResult(oggetto utilizzato per gestire la validazione dei dati, utilizzato insieme all'annotazione @Valid per validare i dati provenienti da una richiesta HTTP)
             bindingResult.addError(new FieldError("book", "isbn", pizzaForm.getName(), false, null, null,
-                    "You cannot add an alredy existing name, choose another name please!"));
+                    "You cannot add an already existing name, choose another name please!"));
         }
         // ModelAttribute aggiunge i dati del book contenuti nel model.attribute()
         // verifico se in validazione ci sono stati errori

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface PizzaRepository extends JpaRepository<Pizza, Integer> {
     List<Pizza> findByNameContainingIgnoreCase(String myName);
 
-    // metodo per cercare un libro che ha un name esistente
+    // metodo per cercare un libro che ha un name esistente sul DB
     Optional<Pizza> findByName(String name);
 
 }

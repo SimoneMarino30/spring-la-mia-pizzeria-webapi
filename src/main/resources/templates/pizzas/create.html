@@ -62,9 +62,9 @@
             <label class="form-label" for="description">Description</label>
             <textarea class="form-control" id="description" th:field="*{description}" rows="5"></textarea>
         </div>
-        <div class="col-12 mt-3">
-            <button class="btn btn-primary" type="submit">Save</button>
-            <a class="btn btn-primary" th:href="@{/pizzas}">Cancel</a>
+        <div class="col-12 my-3 d-flex justify-content-end">
+            <button class="btn btn-success" type="submit">Save</button>
+            <a class="btn btn-danger ms-2" th:href="@{/pizzas}">Back to list</a>
         </div>
     </form>
 </div>

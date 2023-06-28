@@ -9,17 +9,23 @@
 <nav th:replace="~{/fragments/navbar :: nav(currentPage = 'index')}"></nav>
 
 <div class="container mt-5" th:if="${pizzaList.size() > 0}">
-    <form th:action="@{/pizzas}" method="GET">
-        <div class="input-group my-5">
-            <input class="form-control" type="search" placeholder="Search by pizza's name" name="keyword"
-                   th:value="${searchedInput}">
-            <button class="btn btn-success" type="submit">
-                <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
-                🍕
-            </button>
+    <div class="row my-5">
+        <div class="col-10">
+            <form th:action="@{/pizzas}" method="GET">
+                <div class="input-group">
+                    <input class="form-control" type="search" placeholder="Search by pizza's name" name="keyword"
+                           th:value="${searchedInput}">
+                    <button class="btn btn-success" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </form>
         </div>
-    </form>
-    <a class="btn btn-primary" th:href="@{/pizzas/create}">Add a new Pizza</a>
+        <div class="col-2 d-flex justify-content-end">
+            <a class="btn btn-success" th:href="@{/pizzas/create}">Add a new 🍕</a>
+        </div>
+    </div>
+
     <table class="table table-primary table-striped">
         <thead>
         <tr class="table-light">
