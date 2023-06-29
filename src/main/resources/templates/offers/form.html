@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- FRAGMENTS -->
+<th:block th:replace="/fragments/head :: head"></th:block>
+<body>
+<div class="container text-center d-flex flex-column justify-content-center align-items-center">
+    <h1>Offerta per la pizza <span th:text="${offer.pizza.name}"></span></h1>
+    <form
+            th:with="formAction=${offer.id != null ? '/offers/edit/'+ offer.id : '/offers/create'}"
+            th:action="@{${formAction}}"
+            method="POST"
+            class="row my-3 justify-content-center align-items-center"
+            th:object="${offer}"
+
+    >
+        <input type="hidden" th:field="*{pizza}">
+        <div class="col-3">
+            <label for="offer-title">Offer's name</label>
+            <input type="text" class="form-control" id="offer-title" th:field="*{title}"
+                   th:errorClass="is-invalid">
+            <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+                <div th:each="error : ${#fields.errors('title')}" th:text="${error}"></div>
+            </div>
+        </div>
+        <div class="col-3">
+            <label for="offer-start">Starting date</label>
+            <input type="date" class="form-control" id="offer-start" name="startDate" th:value="${offer.startDate}"
+                   th:errorClass="is-invalid">
+            <div th:if="${#fields.hasErrors('startDate')}" class="invalid-feedback">
+                <div th:each="error : ${#fields.errors('startDate')}" th:text="${error}"></div>
+            </div>
+        </div>
+        <div class="col-3">
+            <label for="offer-end">Expiry date</label>
+            <input type="date" class="form-control" id="offer-end" name="endDate" th:value="${offer.endDate}"
+                   th:errorClass="is-invalid">
+            <div th:if="${#fields.hasErrors('endDate')}" class="invalid-feedback">
+                <div th:each="error : ${#fields.errors('endDate')}" th:text="${error}"></div>
+            </div>
+        </div>
+        <div class="my-3">
+            <button class="btn btn-success" type="submit">Save</button>
+            <a th:href="@{/pizzas/${pizza.id}|}" class="btn btn-warning">Back to Detail</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
