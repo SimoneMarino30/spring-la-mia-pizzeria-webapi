@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pizzas")
@@ -36,19 +38,22 @@ public class Pizza {
     private BigDecimal price;
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "pizza", cascade = {CascadeType.REMOVE})
+    private List<Offer> offers = new ArrayList<>();
+
+
     // soft delete
     /*@Column(nullable = false)
     private boolean deleted = Boolean.FALSE;*/
 
 
     // CONSTRUCTOR
-    public Pizza(String name, String description, String urlPic, BigDecimal price, boolean deleted) {
+    /*public Pizza(String name, String description, String urlPic, BigDecimal priced) {
         this.name = name;
         this.description = description;
         this.urlPic = urlPic;
         this.price = price;
-        //this.deleted = deleted;
-    }
+    }*/
 
     // DEFAULT CONSTRUCTOR
     public Pizza() {
@@ -104,6 +109,14 @@ public class Pizza {
         this.createdAt = createdAt;
     }
 
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
+    }
+
     // GETTERS & SETTERS SOFT DELETE
     /*public boolean isDeleted() {
         return deleted;
@@ -119,4 +132,6 @@ public class Pizza {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MMMM dd 'at' HH:mm");
         return createdAt.format(formatter);
     }
+
+
 }
