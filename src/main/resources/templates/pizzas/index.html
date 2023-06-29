@@ -35,12 +35,12 @@
     <table class="table table-striped">
         <thead>
         <tr class="table-light">
-            <th class="text-bg-success">Preview</th>
-            <th class="text-bg-success">Name</th>
-            <th class="text-bg-success">Price</th>
+            <th class="text-bg-success border-text">Preview</th>
+            <th class="text-bg-success border-text">Name</th>
+            <th class="text-bg-success border-text">Price</th>
             <th class="text-center">Ingredients</th>
-            <th class="text-bg-danger">Created</th>
-            <th class="text-bg-danger">Actions</th>
+            <th class="text-bg-danger border-text">Created</th>
+            <th class="text-bg-danger border-text">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -75,6 +75,9 @@
         </tr>
         </tbody>
     </table>
+    <!-- <div th:each="pizzaDel : ${pizzasDeleted}">
+        <div th:text="${pizzaDel.name}"></div>
+    </div> -->
     <div class="text-danger text-center" th:if="${pizzaList.size() < 0}">
         The 🍕 list is empty 🤷‍
     </div>

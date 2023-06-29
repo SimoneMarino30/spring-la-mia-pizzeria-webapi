@@ -21,11 +21,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+//@Service
 @RequestMapping("/pizzas")
 public class PizzaController {
     @Autowired
     // PizzaController dipende da pizzaRepository
     private PizzaRepository pizzaRepository;
+
+    /*@Autowired
+    private EntityManager entityManager;*/
 
     /* METODI PER LA READ
      * */
@@ -119,7 +123,7 @@ public class PizzaController {
         // verifico se il name è univoco
         if (!isUniqueName(pizzaForm)) {
             // aggiungo a mano un errore nella mappa BindingResult(oggetto utilizzato per gestire la validazione dei dati, utilizzato insieme all'annotazione @Valid per validare i dati provenienti da una richiesta HTTP)
-            bindingResult.addError(new FieldError("book", "isbn", pizzaForm.getName(), false, null, null,
+            bindingResult.addError(new FieldError("pizza", "name", pizzaForm.getName(), false, null, null,
                     "You cannot add an already existing name, choose another name please!"));
         }
         // ModelAttribute aggiunge i dati del book contenuti nel model.attribute()
@@ -135,7 +139,7 @@ public class PizzaController {
         // il metodo save fa una CREATE Sql se l'oggetto con quella Primary Key non esiste, altrimenti fa l' UPDATE
         pizzaRepository.save(pizzaForm);
         // messaggio custo per avvenuta creazione
-        redirectattributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "Book created"));
+        redirectattributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "New Pizza created"));
         // se tutto va bene rimando alla lista di pizzas
         return "redirect:/pizzas";
     }
@@ -161,7 +165,7 @@ public class PizzaController {
                          RedirectAttributes redirectAttributes
     ) { //pizzaForm e' un altro modo di passare il model
         Pizza pizzaToEdit = getPizzaById(id); // fotografia della pizza prima di essere modificata (vecchia versione della pizza)
-        // nuova versione del book è formBook
+        // nuova versione della pizza è pizzaForm
 
         // valido pizzaForm
 
@@ -198,6 +202,17 @@ public class PizzaController {
         return "redirect:/pizzas";
 
     }
+
+    // METODO SOFT DELETE
+    /*public Iterable<Pizza> findAll(@RequestParam(value = "isDeleted", required = false, defaultValue = "false") boolean isDeleted) {
+        Session session = entityManager.unwrap(Session.class); // L'oggetto entityManager è responsabile della gestione delle operazioni di persistenza delle entità nel database.
+        Filter filter = session.enableFilter("deletedProductFilter");// I filtri di Hibernate consentono di applicare condizioni aggiuntive alle query eseguite sul database. In questo caso, il filtro verrà utilizzato per filtrare i record eliminati in base al valore del parametro "isDeleted".
+        filter.setParameter("isDeleted", isDeleted);// Viene impostato il valore del parametro "isDeleted" nel filtro. Questo valore determina se verranno restituiti solo i record eliminati o quelli non eliminati.
+        Iterable<Pizza> pizzasDeleted = pizzaRepository.findAll();// Viene eseguita una query per recuperare tutti gli oggetti di tipo Pizza dal repository pizzaRepository. La query viene influenzata dal filtro abilitato precedentemente, quindi restituirà solo le pizze che soddisfano la condizione di eliminazione (o non eliminazione) specificata dal parametro "isDeleted".
+        session.disableFilter("deletedProductFilter");// Il filtro "deletedProductFilter" viene disabilitato per assicurarsi che non influenzi altre query successive eseguite nella stessa sessione.
+        //model.addAttribute("deletedPizzas", pizzasDeleted);
+        return pizzasDeleted;// l' iterable contenente le pizze che soddisfano la condizione di eliminazione specificata viene restituito come risultato del metodo
+    }*/
 
     // UTILITY METHODS
     // metodo per verificare se su database c'è già una pizza con lo stesso name (unique)

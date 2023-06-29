@@ -11,6 +11,13 @@ import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "pizzas")
+// annotations for soft delete
+
+//@SQLDelete(sql = "UPDATE pizzas SET deleted = true WHERE id=?") // fa l'override del comando delete di SQL
+//@FilterDef(name = "deletedProductFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+//TYPE BOOLEAN DA ERRORE, VUOLE UNA CLASSE
+//@Filter(name = "deletedProductFilter", condition = "deleted = :isDeleted")
+
 public class Pizza {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,13 +36,18 @@ public class Pizza {
     private BigDecimal price;
     private LocalDateTime createdAt;
 
+    // soft delete
+    /*@Column(nullable = false)
+    private boolean deleted = Boolean.FALSE;*/
+
 
     // CONSTRUCTOR
-    public Pizza(String name, String description, String urlPic, BigDecimal price) {
+    public Pizza(String name, String description, String urlPic, BigDecimal price, boolean deleted) {
         this.name = name;
         this.description = description;
         this.urlPic = urlPic;
         this.price = price;
+        //this.deleted = deleted;
     }
 
     // DEFAULT CONSTRUCTOR
@@ -91,6 +103,15 @@ public class Pizza {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+    // GETTERS & SETTERS SOFT DELETE
+    /*public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }*/
 
     // CUSTOM GETTER PER FORMATTARE LA DATA
 
