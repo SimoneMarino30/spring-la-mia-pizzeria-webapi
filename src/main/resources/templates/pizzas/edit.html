@@ -60,6 +60,14 @@
                 </div>
             </div>
         </div>
+        <div class="col-6">
+            <h3>Ingredients</h3>
+            <div class="form-check" th:each="ingredient : ${ingredientList}">
+                <input class="form-check-input" type="checkbox" th:value="${ingredient.id}" th:id="|ingredient_${ingredient.id}|"
+                       th:field="*{ingredients}">
+                <label class="form-check-label" th:for="|ingredient_${ingredient.id}|" th:text="${ingredient.name}">
+                </label>
+            </div>
         <div class="col-12">
             <label class="form-label" for="description">Description</label>
             <textarea class="form-control" id="description" th:field="*{description}" rows="5"></textarea>
