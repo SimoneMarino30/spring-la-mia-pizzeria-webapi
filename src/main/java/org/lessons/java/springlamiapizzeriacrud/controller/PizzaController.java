@@ -116,13 +116,15 @@ public class PizzaController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza()); // obj new Pizza è vuoto in questo momento
+        // ** INGREDIENT LIST X CHECKBOX ** aggiungo al model la lista delgli ingredienti per popolare le checkbox
+        model.addAttribute("ingredientList", ingredientRepository.findAll());
         // ** return "/pizzas/create"; // ritorno la vista create
         return "/pizzas/edit"; // ** REFACTORING: ritorno la vista del form di edit in base alla variabile isEdit
     }
 
     // controller che gestisce la POST del form coi dati della pizza
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("pizza") Pizza pizzaForm, BindingResult bindingResult, RedirectAttributes redirectattributes) { //pizzaForm e' un altro modo di passare il model
+    public String store(@Valid @ModelAttribute("pizza") Pizza pizzaForm, BindingResult bindingResult, RedirectAttributes redirectattributes, Model model) { //pizzaForm e' un altro modo di passare il model
         // i dati della pizza sono dentro l'obj pizzaForm
         // verifico se il name è univoco
         if (!isUniqueName(pizzaForm)) {
@@ -135,6 +137,9 @@ public class PizzaController {
         if (bindingResult.hasErrors()) {
             //ci sono stati errori
             // ** return "/pizzas/create"; // ritorno template form ma con obj Pizza precaricato
+
+            // ** INGREDIENT LIST X CHECKBOX ** aggiungo al model la lista delgli ingredienti per popolare le checkbox
+            model.addAttribute("ingredientList", ingredientRepository.findAll());
             return "/pizzas/edit"; // ** REFACTORING: ritorno la vista del form di edit
         } // se non ci sono stati errori
         // setto il timestamp di creazione
@@ -159,6 +164,8 @@ public class PizzaController {
         // recupero i dati di quella pizza da DB
         // aggiungio la pizza al model
         model.addAttribute("pizza", pizza);// get mi restituisce il book dentro Optinal
+        // ** INGREDIENT LIST X CHECKBOX ** aggiungo al model la lista delgli ingredienti per popolare le checkbox
+        model.addAttribute("ingredientList", ingredientRepository.findAll());
         return "/pizzas/edit"; // ritorno la vista con form di edit in base alla variabile isEdit(form unico)
     }
 
@@ -166,7 +173,8 @@ public class PizzaController {
     public String doEdit(@PathVariable Integer id,
                          @Valid @ModelAttribute("pizza") Pizza pizzaForm,
                          BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes
+                         RedirectAttributes redirectAttributes,
+                         Model model
     ) { //pizzaForm e' un altro modo di passare il model
         Pizza pizzaToEdit = getPizzaById(id); // fotografia della pizza prima di essere modificata (vecchia versione della pizza)
         // nuova versione della pizza è pizzaForm
@@ -179,6 +187,8 @@ public class PizzaController {
             bindingResult.addError(new FieldError("pizza", "name", pizzaForm.getName(), false, null, null, "Name must be unique"));
         }
         if (bindingResult.hasErrors()) {
+            // ** INGREDIENT LIST X CHECKBOX ** aggiungo al model la lista delgli ingredienti per popolare le checkbox
+            model.addAttribute("ingredientList", ingredientRepository.findAll());
             // se ci sono errori ritorno il template con il form
             return "/pizzas/edit";
         }
