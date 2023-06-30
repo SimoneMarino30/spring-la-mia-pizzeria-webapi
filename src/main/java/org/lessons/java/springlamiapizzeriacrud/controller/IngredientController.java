@@ -1,13 +1,16 @@
 package org.lessons.java.springlamiapizzeriacrud.controller;
 
+import jakarta.validation.Valid;
 import org.lessons.java.springlamiapizzeriacrud.model.Ingredient;
+import org.lessons.java.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.java.springlamiapizzeriacrud.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,5 +50,37 @@ public class IngredientController {
         // passo al model un attributo categoryObj per mappare il form su un oggetto di tipo Category
         model.addAttribute("ingredientObj", ingredientObj);
         return "/ingredients/index";
+    }
+
+    @PostMapping("/save")
+    public String save(@Valid @ModelAttribute("ingredientObj") Ingredient formIngredient,
+                       BindingResult bindingResult, Model model) {
+        // verfichiamo se ci sono errori
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredients", ingredientRepository.findAll());
+            return "/ingredients/index";
+        }
+        // salvare gli ingredienti
+        ingredientRepository.save(formIngredient);
+        // fa la redirect alla index
+        return "redirect:/ingredients";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id) {
+        // prima di eliminare la categoria la dissocio da tutti i libri
+        Optional<Ingredient> result = ingredientRepository.findById(id);
+        if (result.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        // categoria che devo eliminare
+        Ingredient ingredientToDelete = result.get();
+        // per ogni libro associato alla categoria da eliminare
+        for (Pizza pizza : ingredientToDelete.getPizzas()) {
+            pizza.getIngredients().remove(ingredientToDelete);
+        }
+
+        ingredientRepository.deleteById(id);
+        return "redirect:/ingredients";
     }
 }
