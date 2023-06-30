@@ -8,15 +8,15 @@
 </head>
 <body>
 <nav th:insert="~{/fragments/navbar :: nav(currentPage = 'show')}"></nav>
-<div class="container mt-5"> <!--  style="border:3px solid black" -->
+<div class="container mt-5"  th:object="${pizza}"> <!--  style="border:3px solid black" -->
     <div class="d-flex justify-content-center">
         <div>
             <div class="card text-bg-light img-fluid w-75 text-center">
                 <img th:src="@{/pizza-logo-white.jpg}" class="card-img mt-5" alt="...">
                 <div class="card-img-overlay">
-                    <h3 class="card-title" th:text="${pizza.name}"></h3>
-                    <h2 class="card-text mt-3" th:text="${pizza.description}"></h2>
-                    <p class="card-text my-5" th:text="${pizza.price}"><small></small></p>
+                    <h3 class="card-title" th:text="*{name}"></h3>
+                    <h2 class="card-text mt-3" th:text="*{description}"></h2>
+                    <p class="card-text my-5" th:text="*{price}"><small></small></p>
                     <div class="text-center">
                         <a th:href="@{/pizzas}" class="btn btn-danger mt-1">Back to List</a>
                     </div>
@@ -38,9 +38,17 @@
                  </div>
              </div>-->
         </div>
-        <img th:src="${pizza.urlPic}" class="plate" alt="pizza">
+        <img th:src="*{urlPic}" class="plate" alt="pizza">
+    </div>
+    <div class="col-4">
+        <h3>ingredients</h3>
+        <ul th:if="*{ingredients.size() > 0}">
+            <li th:each="ingredient : *{ingredients}" th:text="${ingredient.name}"></li>
+        </ul>
+        <div th:unless="*{ingredients.size() > 0}" class="alert alert-info">No ingredients</div>
     </div>
 </div>
+
 <!-- OFFERS -->
 <div class="my-3">
     <a th:href="@{/offers/create(pizzaId=${pizza.id})}" class="btn btn-warning">Create a new offer</a>
