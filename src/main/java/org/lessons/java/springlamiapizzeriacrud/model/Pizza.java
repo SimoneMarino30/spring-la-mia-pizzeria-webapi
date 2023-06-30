@@ -41,6 +41,15 @@ public class Pizza {
     @OneToMany(mappedBy = "pizza", cascade = {CascadeType.REMOVE})
     private List<Offer> offers = new ArrayList<>();
 
+    // relazione N:N, creazione tabella ponte
+    @ManyToMany()
+    @JoinTable(
+            name = "pizza_ingredient",
+            joinColumns = @JoinColumn(name = "pizza_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
+    // lista ingredienti associabile alla pizza
+    private List<Ingredient> ingredients;
 
     // soft delete
     /*@Column(nullable = false)
@@ -115,6 +124,14 @@ public class Pizza {
 
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     // GETTERS & SETTERS SOFT DELETE

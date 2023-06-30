@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import org.lessons.java.springlamiapizzeriacrud.messages.AlertMessage;
 import org.lessons.java.springlamiapizzeriacrud.messages.AlertMessageType;
 import org.lessons.java.springlamiapizzeriacrud.model.Pizza;
+import org.lessons.java.springlamiapizzeriacrud.repository.IngredientRepository;
 import org.lessons.java.springlamiapizzeriacrud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class PizzaController {
     @Autowired
     // PizzaController dipende da pizzaRepository
     private PizzaRepository pizzaRepository;
+
+    @Autowired
+    private IngredientRepository ingredientRepository;
 
     /*@Autowired
     private EntityManager entityManager;*/

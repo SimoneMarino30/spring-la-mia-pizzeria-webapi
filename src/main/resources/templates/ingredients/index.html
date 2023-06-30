@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- FRAGMENTS -->
+    <th:block th:replace="~{/fragments/head :: head}"></th:block>
+    <title>Index ingredients</title>
+</head>
+<body>
+<nav th:replace="~{/fragments/navbar :: nav(currentPage = 'ingredients')}"></nav> <!--  -->
+
+<h1>FUNZIONOOOOOOOOOOOOOOOO</h1>
+
+<div class="container">
+    <h1>Categories</h1>
+    <hr>
+
+    <div class="row">
+        <!-- Lista degli ingredients-->
+        <div class="col-6">
+            <ul class="list-group" th:if="${ingredients.size > 0}">
+                <li
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                        th:each="ingredient : ${ingredients}"
+                        th:object="${ingredient}"
+                >
+                    <div>
+                        <h4 th:text="*{name}"></h4>
+                        <!-- <p th:text="*{description}"></p> -->
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a th:href="@{/ingredients(edit=*{id})}" class="btn btn-primary me-1"><i
+                                class="fa-solid fa-pen-to-square"></i></a>
+                        <form
+                                th:action="@{|/ingredients/delete/*{id}|}"
+                                method="post"
+                        >
+                            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+            <div class="alert alert-info" th:unless="${ingredients.size > 0}">
+                There are no ingredients
+            </div>
+        </div>
+        <!-- form di creazione/edit degli ingredients -->
+        <div class="col-6">
+            <form
+                    th:action="@{/ingredients/save}"
+                    id="ingredient-form"
+                    method="post"
+                    th:object="${ingredientObj}"
+            >
+                <input type="hidden" th:field="*{id}">
+                <div class="mb-2">
+                    <label class="form-label" for="name">Name</label>
+                    <input class="form-control" type="text" id="name" th:field="*{name}"
+                           th:errorClass="is-invalid">
+                    <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" id="description" th:field="*{description}"
+                              th:errorClass="is-invalid"></textarea>
+                    <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div> -->
+                <div>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-primary" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
