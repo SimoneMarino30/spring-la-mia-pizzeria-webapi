@@ -10,6 +10,11 @@ INSERT INTO `pizzas` (price, description, name, url_pic, created_at) VALUES (13.
 INSERT INTO `pizzas` (price, description, name, url_pic, created_at) VALUES (13.99, 'Pomodori pelati, fior di latte di Agerola, Nduja di Spilinga e caciocavallo', 'Calabria', 'https://res.cloudinary.com/glovoapp/w_600,f_auto,q_auto:low/Products/xeh8ipghn4utat2vrg1u', '2023-06-22 12:14');
 INSERT INTO `pizzas` (price, description, name, url_pic, created_at) VALUES (13.99, 'Fior di latte di Agerola, bresaola, datterini rossi freschi, rucola e scaglie di Grana Padano', 'Lombardia', 'https://res.cloudinary.com/glovoapp/w_600,f_auto,q_auto:low/Products/o3feehuan9tuq7kizzi3', '2023-06-22 12:14');
 INSERT INTO `pizzas` (price, description, name, url_pic, created_at) VALUES (13.99, 'Fior di latte di Agerola, speck, ricotta di bufala e fiori di zucca', 'Trentino', 'https://res.cloudinary.com/glovoapp/w_600,f_auto,q_auto:low/Products/mqg2xcbdupwnuhiw7a5l', '2023-06-22 12:14');
+INSERT INTO `ingredients` (name) VALUES('banana');
+INSERT INTO `ingredients` (name) VALUES('ananas');
+INSERT INTO `ingredients` (name) VALUES('pesche sciroppate');
+
+
 
 
 <!--INSERT INTO `pizzas` (price, description, name, url_pic, created_at, deleted) VALUES (5.99, 'Pomodori pelati, spolverata di formaggio grattugiato e fior di latte di Agerola ', 'Margherita', 'https://res.cloudinary.com/glovoapp/w_600,f_auto,q_auto:low/Products/dzkieoorh0hh2ktj8ob5', '2023-06-22 12:14', false);
