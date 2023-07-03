@@ -24,7 +24,8 @@
                 <!-- INGREDIENTS -->
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/ingredients}"
-                       th:classappend="${currentPage == 'ingredients' ? 'active' : ''}">Ingredients</a>
+                       th:classappend="${currentPage == 'ingredients' ? 'active' : ''}"
+                       sec:authorize="hasAuthority('ADMIN')">Ingredients</a>
                 </li>
             </ul>
         </div>

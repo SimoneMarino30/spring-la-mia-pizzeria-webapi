@@ -28,7 +28,7 @@
             </form>
         </div>
         <div class="col-2 d-flex justify-content-end">
-            <a class="btn btn-success" th:href="@{/pizzas/create}">Add a new 🍕</a>
+            <a class="btn btn-success" th:href="@{/pizzas/create}" sec:authorize="hasAuthority('ADMIN')">Add a new 🍕</a>
         </div>
     </div>
 
@@ -59,13 +59,14 @@
                             <i class="fa-solid fa-pizza-slice"></i>
                         </button>
                     </a>
-                    <a th:href="@{|/pizzas/edit/${pizza.id}|}">
+                    <a th:href="@{|/pizzas/edit/${pizza.id}|}" sec:authorize="hasAuthority('ADMIN')">
                         <button class="btn btn-light" type="submit">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </a>
                     <!-- faccio il form essendo una richiesta POST e non GET come nelle 2 actions sopra -->
-                    <form th:action="@{|/pizzas/delete/${pizza.id}|}" method="post">
+                    <form th:action="@{|/pizzas/delete/${pizza.id}|}" method="post"
+                          sec:authorize="hasAuthority('ADMIN')">
                         <button class="btn btn-danger" type="submit">
                             <i class="fa-solid fa-trash"></i>
                         </button>

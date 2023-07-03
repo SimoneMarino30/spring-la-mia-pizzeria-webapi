@@ -51,7 +51,7 @@
 
 <!-- OFFERS -->
 <div class="my-3">
-    <a th:href="@{/offers/create(pizzaId=${pizza.id})}" class="btn btn-warning">Create a new offer</a>
+    <a th:href="@{/offers/create(pizzaId=${pizza.id})}" class="btn btn-warning" sec:authorize="hasAuthority('ADMIN')">Create a new offer</a>
 </div>
 <table class="table" th:if="${pizza.offers.size() > 0}"> <!-- offers field in Pizza -->
     <thead>
