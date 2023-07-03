@@ -102,3 +102,10 @@ INSERT INTO pizza_ingredient (pizza_id, ingredient_id) VALUES(12,6);
 INSERT INTO pizza_ingredient (pizza_id, ingredient_id) VALUES(12,16);
 INSERT INTO pizza_ingredient (pizza_id, ingredient_id) VALUES(12,8);
 INSERT INTO pizza_ingredient (pizza_id, ingredient_id) VALUES(12,24);
+<!-- SECURITY
+INSERT INTO roles (id, name) VALUES(1,'ADMIN');
+INSERT INTO roles (id, name) VALUES(2,'USER');
+INSERT INTO users (id, email, first_name, last_name, password) VALUES(1, 'simo@email.com', 'Simo', 'Simoni', '{noop}password');
+INSERT INTO users (id, email, first_name, last_name, password) VALUES(2, 'marino@email.com', 'Marino', 'Marini', '{noop}marini');
+INSERT INTO users_roles (roles_id, user_id) VALUES(1, 1);
+INSERT INTO users_roles (roles_id, user_id) VALUES(2, 2);
