@@ -28,11 +28,13 @@ public class OfferController {
 
     @GetMapping("/create")
     public String create(@RequestParam("pizzaId") Integer pizzaId, Model model) {
+        // recupero l' id della pizza associata all' offerta
         Optional<Pizza> foundPizza = pizzaRepository.findById(pizzaId);
         if (foundPizza.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         Offer offer = new Offer();
         offer.setStartDate(LocalDate.now());
-        offer.setEndDate(LocalDate.now().plusDays(1));
+        offer.setEndDate(LocalDate.now().plusDays(10));
+        //passo l' id della pizza associata
         offer.setPizza(foundPizza.get());
         model.addAttribute("offer", offer);
         return "offers/form";

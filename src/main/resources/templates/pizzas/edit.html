@@ -52,7 +52,7 @@
                 <span class="input-group-text">€</span>
                 <input type="text" class="form-control" id="price" th:field="*{price}"
                        th:errorClass="is-invalid">
-                <span class="input-group-text">N.B. Default .00 will be add if not specified</span>
+                <span class="input-group-text">N.B. Default .00 will be added if not specified</span>
                 <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback">
                     <ul>
                         <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>

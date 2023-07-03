@@ -51,6 +51,7 @@
                     method="post"
                     th:object="${ingredientObj}"
             >
+                <!-- campo hidden per tenere traccia dell' id, è nascosto perchè ovviamente non è modificabile -->
                 <input type="hidden" th:field="*{id}">
                 <div class="mb-2">
                     <label class="form-label" for="name">Name</label>
