@@ -41,27 +41,28 @@ public class SecurityConfiguration {
     }
     // ROTTE
     /*
-     * /categories solo ADMIN
-     * /books, /books/{id} ADMIN e USER
-     * /books/edit/** ADMIN
-     * /books/create ADMIN
-     * /borrowings/** ADMIN
+     * /ingredients solo ADMIN
+     * /pizzas & /pizzas/{id} ADMIN e USER
+     * /pizzas/edit/** ADMIN
+     * /pizzas/create ADMIN
+     * /offers/** ADMIN
      */
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // definisco la catena di filtri
         http.authorizeHttpRequests()
-                .requestMatchers("/categories").hasAuthority("ADMIN")
-                .requestMatchers("/books/edit/**").hasAuthority("ADMIN")
-                .requestMatchers("/books/create").hasAuthority("ADMIN")
-                .requestMatchers("/books/**").hasAnyAuthority("ADMIN", "USER")
-                .requestMatchers("/borrowings/**").hasAuthority("ADMIN")
+                .requestMatchers("/ingredients/**").hasAuthority("ADMIN")
+                .requestMatchers("/pizzas/edit/**").hasAuthority("ADMIN")
+                .requestMatchers("/pizzas/create").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.POST).hasAuthority("ADMIN")
+                .requestMatchers("/pizzas/**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/offers/**").hasAuthority("ADMIN")
                 .requestMatchers("/**").permitAll()
+                //.and().exceptionHandling().accessDeniedPage("/error/4xx")
                 .and().formLogin()
                 .and().logout();
+        //.and().csrf().disable();
         return http.build();
-
     }
 }
