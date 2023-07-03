@@ -27,6 +27,11 @@
                        th:classappend="${currentPage == 'ingredients' ? 'active' : ''}"
                        sec:authorize="hasAuthority('ADMIN')">Ingredients</a>
                 </li>
+                <!-- LOGOUT -->
+                <li class="nav-item">
+                    <a th:href="@{/login}" class="nav-link">Logout</a>
+                </li>
+
             </ul>
         </div>
     </div>
