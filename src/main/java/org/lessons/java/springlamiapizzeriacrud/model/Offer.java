@@ -9,7 +9,6 @@ import java.time.LocalDate;
 
 @Entity
 public class Offer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -26,21 +25,21 @@ public class Offer {
     @JoinColumn(nullable = false)
     private Pizza pizza;
 
+    // GETTERS & SETTERS
     public Pizza getPizza() {
         return pizza;
     }
 
-    // GETTERS & SETTERS
+    public void setPizza(Pizza pizza) {
+        this.pizza = pizza;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public void setPizza(Pizza pizza) {
-        this.pizza = pizza;
     }
 
     public LocalDate getEndDate() {

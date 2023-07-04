@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <th:block th:replace="/fragments/head :: head"></th:block>
     <title>nav</title>
@@ -29,9 +30,11 @@
                 </li>
                 <!-- LOGOUT -->
                 <li class="nav-item">
-                    <a th:href="@{/login}" class="nav-link">Logout</a>
+                    <a th:href="@{/login}" class="nav-link">
+                        <i class="fas fa-user-circle user-logo user-circle"></i>
+                        Logout
+                    </a>
                 </li>
-
             </ul>
         </div>
     </div>
