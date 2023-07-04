@@ -1,5 +1,6 @@
 package org.lessons.java.springlamiapizzeriacrud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -16,6 +17,7 @@ public class Ingredient {
     private String name;
 
     // relazione N:N
+    @JsonIgnore
     @ManyToMany(mappedBy = "ingredients")
     // lista pizze associabili agli ingredienti
     private List<Pizza> pizzas;

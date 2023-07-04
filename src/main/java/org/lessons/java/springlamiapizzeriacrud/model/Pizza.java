@@ -1,5 +1,6 @@
 package org.lessons.java.springlamiapizzeriacrud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -38,6 +39,9 @@ public class Pizza {
     private BigDecimal price;
     private LocalDateTime createdAt;
 
+
+    // Ignora la relazione per serializzare le pizze se no va in ricorsione(tenta di creare book all' infinito)
+    @JsonIgnore
     @OneToMany(mappedBy = "pizza", cascade = {CascadeType.REMOVE})
     private List<Offer> offers = new ArrayList<>();
 
