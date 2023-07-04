@@ -4,11 +4,13 @@ import jakarta.validation.Valid;
 import org.lessons.java.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.java.springlamiapizzeriacrud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,13 +20,13 @@ public class PizzaRestController {
     @Autowired
     private PizzaRepository pizzaRepository;
 
-    @GetMapping
+    /*@GetMapping
     public List<Pizza> index() {
         // restituisco la lista di tutte le pizze prese da DB
         return pizzaRepository.findAll();
-    }
+    }*/
 
-    // servizio per vaere il dettaglio del singolo libro
+    // servizio per vedere il dettaglio del singolo libro
     @GetMapping("/{id}")
     public Pizza get(@PathVariable Integer id) {
         // cerco il libro per id su DB
@@ -54,6 +56,18 @@ public class PizzaRestController {
     public Pizza update(@PathVariable Integer id, @RequestBody Pizza pizza) {
         pizza.setId(id);// setto l'id passato come param
         return pizzaRepository.save(pizza);
+    }
+
+    // servizio paginazione
+    @GetMapping
+    public Page<Pizza> page(
+            @RequestParam(defaultValue = "4") Integer size,
+            @RequestParam(defaultValue = "0") Integer page,
+            Pageable pageable) {
+        // creo un Pageable a partire da size e page
+        pageable = PageRequest.of(page, size);
+        // restituisco una Page estratta da database dal metodo findAll
+        return pizzaRepository.findAll(pageable);
     }
 }
 
