@@ -66,19 +66,19 @@ public class PizzaForm {
         this.price = price;
     }
 
-    public MultipartFile getCoverFile() {
-        return coverFile;
-    }
-
-    public void setCoverIFile(MultipartFile coverFile) {
-        this.coverFile = coverFile;
-    }
-
     public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public MultipartFile getCoverFile() {
+        return coverFile;
+    }
+
+    public void setCoverFile(MultipartFile coverFile) {
+        this.coverFile = coverFile;
     }
 }

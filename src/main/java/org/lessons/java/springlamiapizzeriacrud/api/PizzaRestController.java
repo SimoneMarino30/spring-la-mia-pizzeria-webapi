@@ -3,6 +3,7 @@ package org.lessons.java.springlamiapizzeriacrud.api;
 import jakarta.validation.Valid;
 import org.lessons.java.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.java.springlamiapizzeriacrud.repository.PizzaRepository;
+import org.lessons.java.springlamiapizzeriacrud.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,13 +22,17 @@ public class PizzaRestController {
     @Autowired
     private PizzaRepository pizzaRepository;
 
-    /*@GetMapping
-    public List<Pizza> index() {
-        // restituisco la lista di tutte le pizze prese da DB
-        return pizzaRepository.findAll();
-    }*/
+    @Autowired
+    private PizzaService pizzaService;
 
-    // servizio per vedere il dettaglio del singolo libro
+    // servizio per avere la lista dei libri
+    @GetMapping("/index")
+    public List<Pizza> index(@RequestParam Optional<String> keyword) {
+        // restituisco la lista di tutte le pizze prese da DB
+        return pizzaService.getAll(keyword);
+    }
+
+    // servizio per vedere il dettaglio del singolo Pizza
     @GetMapping("/{id}")
     public Pizza get(@PathVariable Integer id) {
         // cerco il libro per id su DB
@@ -53,7 +59,7 @@ public class PizzaRestController {
     // servizio per l' update del Book
     @PutMapping("/{id}")
     // bodyrequest passa i dati da modificare, ma devo passare tutti i campi(PATCH fa modifica di un singolo campo)
-    public Pizza update(@PathVariable Integer id, @RequestBody Pizza pizza) {
+    public Pizza update(@PathVariable Integer id, @Valid @RequestBody Pizza pizza) {
         pizza.setId(id);// setto l'id passato come param
         return pizzaRepository.save(pizza);
     }

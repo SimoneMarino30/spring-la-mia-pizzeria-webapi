@@ -38,7 +38,13 @@
                  </div>
              </div>-->
         </div>
-        <img th:src="*{urlPic}" class="plate" alt="pizza">
+        <!-- <img th:src="*{urlPic}" class="plate" alt="pizza"> -->
+    </div>
+    <!-- cover -->
+    <div class="col-4">
+        <img class="img-fluid"
+             th:src="@{|/files/cover/*{id}|}"
+             alt="cover">
     </div>
     <div class="col-4">
         <h3>ingredients</h3>

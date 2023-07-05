@@ -3,11 +3,14 @@ package org.lessons.java.springlamiapizzeriacrud.controller;
 
 import jakarta.validation.Valid;
 import org.lessons.java.springlamiapizzeriacrud.dto.PizzaForm;
+import org.lessons.java.springlamiapizzeriacrud.exceptions.NotUniqueNameException;
+import org.lessons.java.springlamiapizzeriacrud.exceptions.PizzaNotFoundException;
 import org.lessons.java.springlamiapizzeriacrud.messages.AlertMessage;
 import org.lessons.java.springlamiapizzeriacrud.messages.AlertMessageType;
 import org.lessons.java.springlamiapizzeriacrud.model.Pizza;
 import org.lessons.java.springlamiapizzeriacrud.repository.IngredientRepository;
 import org.lessons.java.springlamiapizzeriacrud.repository.PizzaRepository;
+import org.lessons.java.springlamiapizzeriacrud.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,9 @@ public class PizzaController {
 
     @Autowired
     private IngredientRepository ingredientRepository;
+
+    @Autowired
+    PizzaService pizzaService;
 
     /*@Autowired
     private EntityManager entityManager;*/
@@ -68,7 +74,7 @@ public class PizzaController {
         //Passo la lista delle pizze alla view attraverso il model
         model.addAttribute("pizzaList", pizzas);
         //searchedInput è la mia keyword che rimane nella barra di ricerca
-        model.addAttribute("searchedInput", searchString);
+        model.addAttribute("searchedInput", searchString == null ? "" : searchString);
         return "/pizzas/index"; // ritorno la vista index
     }
 
@@ -95,7 +101,7 @@ public class PizzaController {
     // La principale funzionalità degli oggetti Optional è quella di evitare errori di "NullPointerException"
     @GetMapping("/{id}")
     public String show(@PathVariable("id") Integer pizzaId, Model model) {
-        // cerco su DB i dettagli della pizza con quell'id
+        /*// cerco su DB i dettagli della pizza con quell'id
         Optional<Pizza> result = pizzaRepository.findById(pizzaId);
         if (result.isPresent()) {
             // passo la pizza alla view
@@ -105,7 +111,12 @@ public class PizzaController {
         } else {
             // ritorno un HTTP Status 404 Not Found
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        }*/
+        Pizza pizza = getPizzaById(pizzaId);
+        // passa il libro alla view
+        model.addAttribute("pizza", pizza);
+        // ritorna il nome del template della view
+        return "/pizzas/show";
     }
 
     /*
@@ -165,18 +176,23 @@ public class PizzaController {
 
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") PizzaForm pizzaFormFile, BindingResult bindingResult, RedirectAttributes redirectattributes, Model model) {
-        /*if (!isUniqueName(pizzaForm)) {
-            bindingResult.addError(new FieldError("pizza", "name", pizzaForm.getName(), false, null, null,
-                    "You cannot add an already existing name, choose another name please!"));
+        if (bindingResult.hasErrors()) {
+            // chiedo al BookService di salvare su db un Book a partire dal BookForm
+            try {
+                pizzaService.create(pizzaFormFile);
+            } catch (NotUniqueNameException e) {
+                bindingResult.addError(new FieldError("pizza", "name", pizzaFormFile.getName(), false, null, null,
+                        "Name must be unique"));
+            }
         }
         if (bindingResult.hasErrors()) {
-
+            // ci sono stati errori
+            // aggiungo al model la lista delle categorie per popolare le checkbox
             model.addAttribute("ingredientList", ingredientRepository.findAll());
             return "/pizzas/edit";
         }
-        pizzaForm.setCreatedAt(LocalDateTime.now());
-        pizzaRepository.save(pizzaForm);
-        redirectattributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "New Pizza created"));*/
+
+        redirectattributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "New Pizza created"));
         return "redirect:/pizzas";
     }
 
@@ -184,7 +200,7 @@ public class PizzaController {
     /*
     METODI PER UPDATE
     * */
-    @GetMapping("/edit/{id}")
+    /*@GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         // verificare se esiste una pizza con quell'id
         Pizza pizza = getPizzaById(id);
@@ -194,9 +210,25 @@ public class PizzaController {
         // ** INGREDIENT LIST X CHECKBOX ** aggiungo al model la lista delgli ingredienti per popolare le checkbox
         model.addAttribute("ingredientList", ingredientRepository.findAll());
         return "/pizzas/edit"; // ritorno la vista con form di edit in base alla variabile isEdit(form unico)
+    }*/
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        try {
+            // recupero i dati di quel book da database
+            PizzaForm pizzaFormFile = pizzaService.getPizzaFormById(id);
+            // aggiungo il book al model
+            model.addAttribute("pizza", pizzaFormFile);
+            // aggiungo al model la lista delle categorie per popolare le checkbox
+            model.addAttribute("ingredientList", ingredientRepository.findAll());
+            // restituisco il template con il form di edit
+            return "/pizzas/edit";
+        } catch (PizzaNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PostMapping("/edit/{id}")
+    /*@PostMapping("/edit/{id}")
     public String doEdit(@PathVariable Integer id,
                          @Valid @ModelAttribute("pizza") Pizza pizzaForm,
                          BindingResult bindingResult,
@@ -208,8 +240,8 @@ public class PizzaController {
 
         // valido pizzaForm
 
-        // se il vecchio name e quello nuovo sono diversi e quello nuovo è gia presente su DB allora errore +  verifico se name è univoco
-        if (!pizzaToEdit.getName().equals(pizzaForm.getName()) && !isUniqueName(pizzaForm)) {
+        // se il vecchio name e quello nuovo sono diversi e quello nuovo è gia presente su DB allora errore +  verifico se name è univoco in pizzaservice  [&& !isUniqueName(pizzaForm)]
+        if (!pizzaToEdit.getName().equals(pizzaForm.getName())) {
             // aggiungo a mano un errore alla mappa BindingResult
             bindingResult.addError(new FieldError("pizza", "name", pizzaForm.getName(), false, null, null, "Name must be unique"));
         }
@@ -226,6 +258,35 @@ public class PizzaController {
         pizzaRepository.save(pizzaForm);
         redirectAttributes.addFlashAttribute("message",
                 new AlertMessage(AlertMessageType.SUCCESS, "Pizza " + pizzaForm.getName() + " updated successfully!"));
+        return "redirect:/pizzas";
+    }*/
+
+    @PostMapping("/edit/{id}")
+    public String doEdit(@PathVariable Integer id,
+                         @Valid @ModelAttribute("pizza") PizzaForm pizzaFormFile,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes,
+                         Model model
+    ) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                pizzaService.update(pizzaFormFile);
+            } catch (PizzaNotFoundException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            } catch (NotUniqueNameException e) {
+                bindingResult.addError(new FieldError("pizza", "name", pizzaFormFile.getName(), false, null, null,
+                        "name must be unique"));
+            }
+        }
+        if (bindingResult.hasErrors()) {
+            // aggiungo al model la lista degli ingredienti per popolare le checkbox
+            model.addAttribute("ingredientList", ingredientRepository.findAll());
+            // se ci sono errori ritorno il template col form
+            return "/pizzas/edit";
+        }
+
+        redirectAttributes.addFlashAttribute("message",
+                new AlertMessage(AlertMessageType.SUCCESS, "Pizza updated!"));
         return "redirect:/pizzas";
     }
 
