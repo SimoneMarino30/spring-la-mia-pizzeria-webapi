@@ -38,8 +38,9 @@ public class Pizza {
     @Column(nullable = false)
     private BigDecimal price;
     private LocalDateTime createdAt;
-
-
+    @Lob
+    @Column(length = 16777215) // lunghezza massima byte array
+    private byte[] coverImage;
     // Ignora la relazione per serializzare le pizze se no va in ricorsione(tenta di creare book all' infinito)
     @JsonIgnore
     @OneToMany(mappedBy = "pizza", cascade = {CascadeType.REMOVE})
@@ -58,15 +59,6 @@ public class Pizza {
     // soft delete
     /*@Column(nullable = false)
     private boolean deleted = Boolean.FALSE;*/
-
-
-    // CONSTRUCTOR
-    /*public Pizza(String name, String description, String urlPic, BigDecimal priced) {
-        this.name = name;
-        this.description = description;
-        this.urlPic = urlPic;
-        this.price = price;
-    }*/
 
     // DEFAULT CONSTRUCTOR
     public Pizza() {
@@ -136,6 +128,14 @@ public class Pizza {
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public byte[] getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(byte[] coverImage) {
+        this.coverImage = coverImage;
     }
 
     // GETTERS & SETTERS SOFT DELETE
