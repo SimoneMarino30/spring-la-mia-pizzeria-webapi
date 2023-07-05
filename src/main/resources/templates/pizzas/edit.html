@@ -18,7 +18,9 @@
             method="post"
             id="pizza-form"
             class="row card"
+            enctype="multipart/form-data"
     >
+        <!-- enctype="multipart/form-data" = Permette al form di inviare file -->
         <!-- FORM -->
         <!-- NAME -->
         <div class="col-6">
@@ -33,7 +35,7 @@
             </div>
         </div>
         <!-- URL IMG -->
-        <div class="col-6">
+        <!-- <div class="col-6">
             <label for="basic-url" class="form-label">IMG URL</label>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon3">https:</span>
@@ -45,7 +47,22 @@
                     </ul>
                 </div>
             </div>
+        </div> -->
+        <!-- input per file di cover -->
+        <div class="col-12">
+            <label for="coverFile" class="form-label">Cover</label>
+            <input class="form-control" type="file" id="coverFile" th:field="*{coverFile}"
+                   th:errorClass="is-invalid">
+            <div th:if="${#fields.hasErrors('coverFile')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('coverFile')}" th:text="${err}"></li>
+                </ul>
+            </div>
+            <div>
+                <!-- <img width="100" th:src="@{|/files/cover/*{id}|}" alt="current cover"> -->
+            </div>
         </div>
+        <!-- PRICE -->
         <div class="col-6">
             <label class="form-label" for="price">Price</label>
             <div class="input-group mb-3">
