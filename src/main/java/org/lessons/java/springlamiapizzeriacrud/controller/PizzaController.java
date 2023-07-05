@@ -2,6 +2,7 @@ package org.lessons.java.springlamiapizzeriacrud.controller;
 
 
 import jakarta.validation.Valid;
+import org.lessons.java.springlamiapizzeriacrud.dto.PizzaForm;
 import org.lessons.java.springlamiapizzeriacrud.messages.AlertMessage;
 import org.lessons.java.springlamiapizzeriacrud.messages.AlertMessageType;
 import org.lessons.java.springlamiapizzeriacrud.model.Pizza;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -113,17 +113,27 @@ public class PizzaController {
     * */
 
     // controller che restituisce la pagina col form di crezione della nuova Pizza (gestisce la GET)
-    @GetMapping("/create")
+    /*@GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza()); // obj new Pizza è vuoto in questo momento
         // ** INGREDIENT LIST X CHECKBOX ** aggiungo al model la lista delgli ingredienti per popolare le checkbox
         model.addAttribute("ingredientList", ingredientRepository.findAll());
         // ** return "/pizzas/create"; // ritorno la vista create
         return "/pizzas/edit"; // ** REFACTORING: ritorno la vista del form di edit in base alla variabile isEdit
+    }*/
+
+    @GetMapping("/create")
+    public String create(Model model) {
+        // aggiungo al model l'attributo pizza con una PizzaForm vuoto
+        model.addAttribute("pizza", new PizzaForm());
+
+        model.addAttribute("ingredientList", ingredientRepository.findAll());
+
+        return "/pizzas/edit";
     }
 
     // controller che gestisce la POST del form coi dati della pizza
-    @PostMapping("/create")
+    /*@PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") Pizza pizzaForm, BindingResult bindingResult, RedirectAttributes redirectattributes, Model model) { //pizzaForm e' un altro modo di passare il model
         // i dati della pizza sono dentro l'obj pizzaForm
         // verifico se il name è univoco
@@ -150,6 +160,23 @@ public class PizzaController {
         // messaggio custo per avvenuta creazione
         redirectattributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "New Pizza created"));
         // se tutto va bene rimando alla lista di pizzas
+        return "redirect:/pizzas";
+    }*/
+
+    @PostMapping("/create")
+    public String store(@Valid @ModelAttribute("pizza") PizzaForm pizzaFormFile, BindingResult bindingResult, RedirectAttributes redirectattributes, Model model) {
+        /*if (!isUniqueName(pizzaForm)) {
+            bindingResult.addError(new FieldError("pizza", "name", pizzaForm.getName(), false, null, null,
+                    "You cannot add an already existing name, choose another name please!"));
+        }
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("ingredientList", ingredientRepository.findAll());
+            return "/pizzas/edit";
+        }
+        pizzaForm.setCreatedAt(LocalDateTime.now());
+        pizzaRepository.save(pizzaForm);
+        redirectattributes.addFlashAttribute("message", new AlertMessage(AlertMessageType.SUCCESS, "New Pizza created"));*/
         return "redirect:/pizzas";
     }
 
