@@ -40,7 +40,7 @@ public class Pizza {
     private LocalDateTime createdAt;
     @Lob
     @Column(length = 16777215) // lunghezza massima byte array
-    private byte[] coverImage;
+    private byte[] cover;
     // Ignora la relazione per serializzare le pizze se no va in ricorsione(tenta di creare book all' infinito)
     @JsonIgnore
     @OneToMany(mappedBy = "pizza", cascade = {CascadeType.REMOVE})
@@ -130,12 +130,12 @@ public class Pizza {
         this.ingredients = ingredients;
     }
 
-    public byte[] getCoverImage() {
-        return coverImage;
+    public byte[] getCover() {
+        return cover;
     }
 
-    public void setCoverImage(byte[] coverImage) {
-        this.coverImage = coverImage;
+    public void setCover(byte[] cover) {
+        this.cover = cover;
     }
 
     // GETTERS & SETTERS SOFT DELETE

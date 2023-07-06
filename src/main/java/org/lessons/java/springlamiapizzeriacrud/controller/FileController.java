@@ -18,13 +18,13 @@ public class FileController {
     @Autowired
     PizzaService pizzaService;
 
-    // metodo che cerca il libro per id e ne restituisce la cover come image
+    // metodo che cerca la pizza per id e ne restituisce la cover come image
     @GetMapping("/cover/{pizzaId}")
     public ResponseEntity<byte[]> getPizzaCover(@PathVariable Integer pizzaId) {
         try {
             Pizza pizza = pizzaService.getById(pizzaId);
             MediaType mediaType = MediaType.IMAGE_JPEG;
-            return ResponseEntity.ok().contentType(mediaType).body(pizza.getCoverImage());
+            return ResponseEntity.ok().contentType(mediaType).body(pizza.getCover());
         } catch (PizzaNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

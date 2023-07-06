@@ -60,7 +60,7 @@ public class PizzaService {
         pizzaToPersist.setPrice(pizza.getPrice());
         pizzaToPersist.setUrlPic(pizza.getUrlPic());
         pizzaToPersist.setIngredients(pizza.getIngredients());
-        pizzaToPersist.setCoverImage(pizza.getCoverImage());
+        pizzaToPersist.setCover(pizza.getCover());
         // persisto il book
         return pizzaRepository.save(pizzaToPersist);
     }
@@ -93,7 +93,7 @@ public class PizzaService {
         pizzaDb.setPrice(pizza.getPrice());
         pizzaDb.setUrlPic(pizza.getUrlPic());
         pizzaDb.setIngredients(pizza.getIngredients());
-        pizzaDb.setCoverImage(pizza.getCoverImage());
+        pizzaDb.setCover(pizza.getCover());
         // salvo il pizza in update
         return pizzaRepository.save(pizzaDb);
     }
@@ -111,7 +111,7 @@ public class PizzaService {
         pizza.setIngredients(pizzaFormFile.getIngredients());
         // converto il campo cover
         byte[] coverBytes = multipartFileToByteArray(pizzaFormFile.getCoverFile());
-        pizza.setCoverImage(coverBytes); //2:16:00 5-7-2023
+        pizza.setCover(coverBytes); //2:16:00 5-7-2023
 
         return pizza;
     }
